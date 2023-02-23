@@ -1,0 +1,39 @@
+{
+  "name": "delf-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "start:prod": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tygovip127/DELF-Practice.git"
+  },
+  "author": "lephuquoc-phamtoanphuc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tygovip127/DELF-Practice/issues"
+  },
+  "homepage": "https://github.com/tygovip127/DELF-Practice#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.10.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.4"
+  }
+}
