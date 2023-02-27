@@ -7,6 +7,7 @@ const grammarRouter = require('./routes/grammarRoutes');
 const app = express();
 
 // 1. MIDDLEWAREs
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next) => {

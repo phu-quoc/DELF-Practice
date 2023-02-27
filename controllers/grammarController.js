@@ -1,8 +1,21 @@
 const Grammar = require('../models/grammarModel');
+const APIFeatures = require('../utils/apiFeatures');
+
+exports.aliasTopGrammars = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-grammar';
+  req.query.fields = 'grammar,content';
+  next();
+};
 
 exports.getAllGrammars = async (req, res) => {
   try {
-    const grammars = await Grammar.find();
+    const features = new APIFeatures(Grammar.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const grammars = await features.query;
     res.status(200).json({
       status: 'success',
       results: grammars.length,

@@ -1,7 +1,12 @@
 const express = require('express');
 const grammarController = require('../controllers/grammarController');
+const userController = require('../controllers/userController');
 
 const router = express.Router();
+
+router
+  .route('/top-5-popular')
+  .get(grammarController.aliasTopGrammars, grammarController.getAllGrammars);
 
 router
   .route('/')
