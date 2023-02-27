@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const userRouter = require('./routes/userRoutes');
+const grammarRouter = require('./routes/grammarRoutes');
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use((req, res, next) => {
 // 3. ROUTES
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/grammars', grammarRouter);
 
 module.exports = app;
