@@ -179,7 +179,7 @@ exports.getMonthlyPlan = async (req, res) => {
       },
       {
         $limit: 12,
-      },
+      }
     ]);
   } catch (err) {
     res.status(404).json({
