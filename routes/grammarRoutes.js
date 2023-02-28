@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/grammar-stats').get(grammarController.getGrammarStats);
 
-router.route('/monthly-plan/:year').get(grammarController.getMonthlyPlan)
+router.route('/monthly-plan/:year').get(grammarController.getMonthlyPlan);
 
 router
   .route('/top-5-popular')
