@@ -181,6 +181,12 @@ exports.getMonthlyPlan = async (req, res) => {
         $limit: 12,
       },
     ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plan,
+      },
+    });
   } catch (err) {
     res.status(404).json({
       status: 'fail',
