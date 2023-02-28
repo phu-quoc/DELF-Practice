@@ -4,6 +4,8 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+router.route('/grammar-stats').get(grammarController.getGrammarStats);
+
 router
   .route('/top-5-popular')
   .get(grammarController.aliasTopGrammars, grammarController.getAllGrammars);

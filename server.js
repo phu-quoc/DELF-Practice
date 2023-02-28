@@ -14,7 +14,7 @@ mongoose.set('strictQuery', false);
 mongoose
   .connect(DB)
   .then(() => console.log('DB connection established'))
-  .catch((e) => console.log(e));
+  .catch(e => console.log(e));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

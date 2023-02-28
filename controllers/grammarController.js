@@ -99,3 +99,39 @@ exports.deleteGrammar = async (req, res) => {
     });
   }
 };
+
+exports.getGrammarStats = async (req, res) => {
+  try {
+    const stats = await Grammar.aggregate([
+      {
+        $match: {
+          grammar: {
+            $gte: 0,
+          },
+        },
+        $group: {
+          _id: {
+            $toUpper: '$grammar',
+          },
+          numGrammars: {
+            $sum: 1,
+          },
+        },
+        $sort: {
+          grammar: 1,
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
