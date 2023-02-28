@@ -15,6 +15,13 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    default: '',
+  },
+  role: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role',
+    },
   },
 });
 
