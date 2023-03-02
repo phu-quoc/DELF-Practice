@@ -9,7 +9,6 @@ exports.getAllUsers = async (req, res) => {
       .limitFields()
       .paginate();
     const users = await features.query;
-    // const users = await User.find();
     res.status(200).json({
       status: 'success',
       results: users.length,
