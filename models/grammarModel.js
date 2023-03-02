@@ -37,26 +37,26 @@ grammarSchema.pre('save', function (next) {
 });
 
 //QUERY MIDDLEWARE
-grammarSchema.pre(/^find/, function (next) {
-  this.find({
-    grammar: {
-      $ne: 'Past simple tense',
-    },
-  });
-  next();
-});
+// grammarSchema.pre(/^find/, function (next) {
+//   this.find({
+//     grammar: {
+//       $ne: 'Past simple tense',
+//     },
+//   });
+//   next();
+// });
 
 //AGGREGATION MIDDLEWARE
-grammarSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({
-    $match: {
-      grammar: {
-        $ne: 'Present continuous tense',
-      },
-    },
-  });
-  next();
-});
+// grammarSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({
+//     $match: {
+//       grammar: {
+//         $ne: 'Present continuous tense',
+//       },
+//     },
+//   });
+//   next();
+// });
 const Grammar = mongoose.model('Grammar', grammarSchema);
 
 module.exports = Grammar;
