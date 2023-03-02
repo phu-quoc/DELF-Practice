@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const roleSchema = new mongoose.Schema({
-  role: {
+  name: {
     type: String,
     required: [true, 'A role must have a valid name'],
     unique: true,
