@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+const Role = require('../models/roleModel');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -15,14 +17,23 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: '',
   },
   role: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Role',
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',
   },
+});
+
+//DOCUMENT MIDDLEWARE
+userSchema.pre('save', async function (next) {
+  if (this.role === undefined) {
+      const role = await Role.findOne({
+        name: 'User',
+      });
+      this.role = role._id;
+      next();
+  }
+  next();
 });
 
 const User = mongoose.model('User', userSchema);
