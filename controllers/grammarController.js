@@ -1,6 +1,7 @@
 const Grammar = require('../models/grammarModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.aliasTopGrammars = (req, res, next) => {
   req.query.limit = '5';
@@ -27,6 +28,10 @@ exports.getAllGrammars = catchAsync(async (req, res, next) => {
 
 exports.getGrammar = catchAsync(async (req, res, next) => {
   const grammar = await Grammar.findById(req.params.id);
+  if (!grammar) {
+    return next(new AppError('No grammar found with that Id', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -50,6 +55,10 @@ exports.updateGrammar = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+  if (!grammar) {
+    return next(new AppError('No grammar found with that Id', 404));
+  }
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -59,7 +68,10 @@ exports.updateGrammar = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteGrammar = catchAsync(async (req, res, next) => {
-  await Grammar.findByIdAndDelete(req.params.id);
+  const grammar = await Grammar.findByIdAndDelete(req.params.id);
+  if (!grammar) {
+    return next(new AppError('No grammar found with that Id', 404));
+  }
   res.status(204).json({
     status: 'success',
     data: null,
