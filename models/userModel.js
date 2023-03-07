@@ -1,19 +1,32 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 const Role = require('../models/roleModel');
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please tell us your name'],
+  },
   email: {
     type: String,
-    required: [true, 'A user must have a valid email address'],
+    required: [true, 'Please provide your email'],
     unique: true,
+    lowercase: true,
+    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   password: {
     type: String,
+    minLength: 6,
   },
-  name: {
+  passwordConfirm: {
     type: String,
-    required: [true, 'A user must have a valid name'],
+    validate: {
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: 'Password are not the same!',
+    },
   },
   avatar: {
     type: String,
@@ -27,12 +40,14 @@ const userSchema = new mongoose.Schema({
 //DOCUMENT MIDDLEWARE
 userSchema.pre('save', async function (next) {
   if (this.role === undefined) {
-      const role = await Role.findOne({
-        name: 'User',
-      });
-      this.role = role._id;
-      next();
+    const role = await Role.findOne({
+      name: 'User',
+    });
+    this.role = role._id;
   }
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
   next();
 });
 
