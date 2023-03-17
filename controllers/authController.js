@@ -1,10 +1,13 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
+const googleAuthenticate = require('../utils/googleAuthenticate');
 
 const signToken = id =>
   jwt.sign(
@@ -61,6 +64,29 @@ exports.login = catchAsync(async (req, res, next) => {
   const correct = await user.correctPassword(password, user.password);
   if (!correct) return next(new AppError('Incorrect password', 401));
 
+  createSendToken(user, 201, res);
+});
+
+exports.google = passport.authenticate('google', {
+  scope: ['profile', 'email'],
+});
+exports.googleCallback = passport.authenticate('google');
+exports.googleFailed = (req, res, next) =>
+  next(
+    new AppError('You are not logged in! Please log in to get access.', 401)
+  );
+exports.googleSuccess = catchAsync(async (req, res, next) => {
+  const user = await User.findOneAndUpdate(
+    { email: req.user.emails[0].value },
+    {
+      email: req.user.emails[0].value,
+      name: req.user.displayName,
+      googleId: req.user.id,
+      avatar: req.user.photos[0].value,
+    },
+    { upsert: true, new: true }
+  );
+  console.log(user);
   createSendToken(user, 201, res);
 });
 
