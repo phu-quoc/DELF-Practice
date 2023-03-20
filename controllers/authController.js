@@ -71,10 +71,7 @@ exports.google = passport.authenticate('google', {
   scope: ['profile', 'email'],
 });
 exports.googleCallback = passport.authenticate('google');
-exports.googleFailed = (req, res, next) =>
-  next(
-    new AppError('You are not logged in! Please log in to get access.', 401)
-  );
+
 exports.googleSuccess = catchAsync(async (req, res, next) => {
   const user = await User.findOneAndUpdate(
     { email: req.user.emails[0].value },

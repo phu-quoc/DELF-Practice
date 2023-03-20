@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "set NODE_ENV=production && node server",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "test": "node test1.js"
   },
   "repository": {
     "type": "git",
