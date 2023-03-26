@@ -101,14 +101,14 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo =
   (...roles) =>
-  (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(
-        new AppError('You do not have permission to perform this action', 403)
-      );
-    }
-    next();
-  };
+    (req, res, next) => {
+      if (!roles.includes(req.user.role)) {
+        return next(
+          new AppError('You do not have permission to perform this action', 403)
+        );
+      }
+      next();
+    };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -179,4 +179,14 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   createSendToken(user, 201, res);
+});
+
+exports.getAuth = catchAsync(async (req, res, next) => {
+  let user = req.user;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user
+    },
+  });
 });
