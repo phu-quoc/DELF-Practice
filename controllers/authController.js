@@ -70,7 +70,9 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.google = passport.authenticate('google', {
   scope: ['profile', 'email'],
 });
-exports.googleCallback = passport.authenticate('google');
+exports.googleCallback = passport.authenticate('google', {
+  session: false,
+});
 
 exports.googleSuccess = catchAsync(async (req, res, next) => {
   const user = await User.findOneAndUpdate(
