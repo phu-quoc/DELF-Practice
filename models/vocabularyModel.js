@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const vocabularySchema = mongoose.Schema({
+const vocabularySchema = new mongoose.Schema({
   partOfSpeech: {
     type: String,
     required: true,

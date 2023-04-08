@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const answerSchema = mongoose.Schema({
-  resultId: { type: mongoose.Schema.Types.ObjectId, ref: 'Result' },
-  questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+const answerSchema = new mongoose.Schema({
+  result: { type: mongoose.Schema.Types.ObjectId, ref: 'Result' },
+  question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
   answer: String,
   mark: Number,
 });
