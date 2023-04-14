@@ -6,6 +6,9 @@ const { initPassport } = require('./utils/googleAuthenticate');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const grammarRouter = require('./routes/grammarRoutes');
+const resultRouter = require('./routes/resultRoutes');
+const questionRouter = require('./routes/questionRoutes');
+const examinationRouter = require('./routes/examinationRoutes');
 
 const app = express();
 
@@ -20,9 +23,11 @@ app.use((req, res, next) => {
 });
 
 // ROUTES
-
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/grammars', grammarRouter);
+app.use('/api/v1/results', resultRouter);
+app.use('/api/v1/questions', questionRouter);
+app.use('/api/v1/examinations', examinationRouter);
 app.use('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

@@ -15,13 +15,12 @@ const questionSchema = new mongoose.Schema({
   audio: String,
   options: [
     {
-      id: Number,
-      name: String,
       content: String,
-      isCorrect: Boolean,
+      isCorrect: { type: Boolean, default: false },
     },
   ],
   explain: String,
+  point: Number,
 });
 
 const Question = mongoose.model('Question', questionSchema);

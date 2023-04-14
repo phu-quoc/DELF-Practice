@@ -30,6 +30,7 @@ grammarSchema.virtual('grammarLength').get(function () {
 
 //DOCUMENT MIDDLEWARE
 grammarSchema.pre('save', function (next) {
+  console.log(this);
   this.slug = slugify(this.grammar, {
     lower: true,
   });
