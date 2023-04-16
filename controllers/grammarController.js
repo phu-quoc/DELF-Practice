@@ -11,55 +11,10 @@ exports.aliasTopGrammars = (req, res, next) => {
   next();
 };
 
-exports.getAllGrammars = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Grammar.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const grammars = await features.query;
-  res.status(200).json({
-    status: 'success',
-    results: grammars.length,
-    data: {
-      grammars,
-    },
-  });
-});
-
-exports.getGrammar = catchAsync(async (req, res, next) => {
-  const grammar = await Grammar.findById(req.params.id);
-  if (!grammar) {
-    return next(new AppError('No grammar found with that Id', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      grammar,
-    },
-  });
-});
-
+exports.getAllGrammars = factory.getAll(Grammar);
+exports.getGrammar = factory.getOne(Grammar);
 exports.createGrammar = factory.createOne(Grammar);
-
-exports.updateGrammar = catchAsync(async (req, res, next) => {
-  const grammar = await Grammar.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!grammar) {
-    return next(new AppError('No grammar found with that Id', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      grammar: grammar,
-    },
-  });
-});
-
+exports.updateGrammar = factory.updateOne(Grammar);
 exports.deleteGrammar = factory.deleteOne(Grammar);
 
 exports.getGrammarStats = catchAsync(async (req, res, next) => {
