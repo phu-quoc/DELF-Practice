@@ -8,5 +8,8 @@ router
   .get(resultController.getAllResults)
   .post(resultController.createResult);
 
-router.route('/:id').delete(resultController.deleteResult);
+router
+  .route('/:id')
+  .get(resultController.getResult)
+  .delete(resultController.deleteResult);
 module.exports = router;

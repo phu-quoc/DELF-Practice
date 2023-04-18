@@ -27,7 +27,6 @@ const vocabularySchema = new mongoose.Schema({
   definition: String,
   examples: [
     {
-      id: Number,
       sentence: String,
       translation: String,
     },

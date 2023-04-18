@@ -9,6 +9,9 @@ router
   .get(questionController.getAllQuestions)
   .post(questionController.createQuestion);
 
-router.route('/:id').delete(questionController.deleteQuestion);
+router
+  .route('/:id')
+  .get(questionController.getQuestion)
+  .delete(questionController.deleteQuestion);
 
 module.exports = router;
