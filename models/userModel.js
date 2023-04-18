@@ -2,7 +2,6 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const Role = require('../models/roleModel');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -46,6 +45,7 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  googleId: String,
 });
 
 //DOCUMENT MIDDLEWARE
@@ -70,12 +70,8 @@ userSchema.pre(/^find/, function (next) {
   });
   next();
 });
-userSchema.methods.correctPassword = async (
-  candidatePassword,
-  userPassword
-) => {
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
+userSchema.methods.correctPassword = async (candidatePassword, userPassword) =>
+  await bcrypt.compare(candidatePassword, userPassword);
 
 userSchema.methods.changedPasswordAfter = JWTTimestamp => {
   if (this.passwordChangedAt) {
