@@ -10,6 +10,7 @@ const resultRouter = require('./routes/resultRoutes');
 const questionRouter = require('./routes/questionRoutes');
 const examinationRouter = require('./routes/examinationRoutes');
 const vocabularyRouter = require('./routes/vocabularyRoutes');
+const answerRouter = require('./routes/answerRoutes');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/v1/results', resultRouter);
 app.use('/api/v1/questions', questionRouter);
 app.use('/api/v1/examinations', examinationRouter);
 app.use('/api/v1/vocabularies', vocabularyRouter);
+app.use('/api/v1/answers', answerRouter);
 app.use('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
