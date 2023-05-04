@@ -9,6 +9,7 @@ router
   .get(questionController.getAllQuestions)
   .post(
     questionController.uploadQuestionImage,
+    questionController.resizeQuestionImage,
     questionController.createQuestion
   );
 

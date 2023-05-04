@@ -23,7 +23,8 @@ router.get('/me', userController.getMe, userController.getUser);
 router.patch('/updatePassword', authController.updatePassword);
 router.patch(
   '/updateMe',
-  userController.uploadUserImage,
+  userController.uploadUserAvatar,
+  userController.resizeUserAvatar,
   userController.updateMe
 );
 router.delete('/deleteMe', userController.deleteMe);
