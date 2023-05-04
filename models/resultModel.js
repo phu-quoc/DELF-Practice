@@ -12,6 +12,8 @@ const resultSchema = new mongoose.Schema({
   score: Number,
 });
 
+resultSchema.index({ score: 1 });
+
 resultSchema.pre(/^find/, async function (next) {
   this.populate({
     path: 'user',

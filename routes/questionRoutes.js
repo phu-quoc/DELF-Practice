@@ -7,7 +7,10 @@ const router = express.Router();
 router
   .route('/')
   .get(questionController.getAllQuestions)
-  .post(questionController.createQuestion);
+  .post(
+    questionController.uploadQuestionImage,
+    questionController.createQuestion
+  );
 
 router
   .route('/:id')

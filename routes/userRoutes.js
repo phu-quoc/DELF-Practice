@@ -1,5 +1,4 @@
 const express = require('express');
-const passport = require('passport');
 
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -22,7 +21,11 @@ router.use(authController.protect);
 
 router.get('/me', userController.getMe, userController.getUser);
 router.patch('/updatePassword', authController.updatePassword);
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserImage,
+  userController.updateMe
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin'));
