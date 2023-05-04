@@ -70,7 +70,7 @@ exports.getRandom = catchAsync(async (req, res) => {
             status: 'success',
             data: {
                 words: words,
-                results: rdFarvorites
+                meanings: rdFarvorites
             },
         });
     } catch (error) {

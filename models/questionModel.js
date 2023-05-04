@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
-  examination: {
+  exercise: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Examination',
+    ref: 'Exercise',
   },
   category: {
     type: String,
