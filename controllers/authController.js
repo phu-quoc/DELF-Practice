@@ -8,6 +8,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const googleAuthenticate = require('../utils/googleAuthenticate');
+const axios = require('axios');
 
 const signToken = id =>
   jwt.sign(
@@ -215,3 +216,28 @@ exports.getAuth = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.ggLogin = catchAsync(async (req, res, next) => {
+  const idToken = req.body.idToken;
+
+  const response = await axios.post(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+
+  let data = response.data;
+  const user = await User.findOneAndUpdate(
+    { email: data.email },
+    {
+      email: data.email,
+      name: data.name,
+      googleId: data.sub,
+      avatar: data.picture,
+    },
+    { upsert: true, new: true }
+  );
+  console.log(user);
+  createSendToken(user, 201, res);
+})

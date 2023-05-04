@@ -7,7 +7,7 @@ const examinationSchema = new mongoose.Schema(
     description: String,
     type: {
       type: String,
-      enum: ['Listening, Speaking, Reading, Writing, Mini Test, Full Test'],
+      enum: ['Listening', 'Speaking', 'Reading', 'Writing', 'Mini Test', 'Full Test'],
       required: true,
     },
     author: {
@@ -25,8 +25,13 @@ const examinationSchema = new mongoose.Schema(
   }
 );
 
-examinationSchema.virtual('questions', {
-  ref: 'Question',
+// examinationSchema.virtual('questions', {
+//   ref: 'Question',
+//   foreignField: 'examination',
+//   localField: '_id',
+// });
+examinationSchema.virtual('exercises', {
+  ref: 'Exercise',
   foreignField: 'examination',
   localField: '_id',
 });
