@@ -7,12 +7,6 @@ exports.initPassport = app => {
   app.use(passport.initialize());
 };
 
-// passport.serializeUser((user, done) => {
-//   done(null, user);
-// });
-// passport.deserializeUser((user, done) => {
-//   done(null, user);
-// });
 passport.use(
   new GoogleStrategy(
     {

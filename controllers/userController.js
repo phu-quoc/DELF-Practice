@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const User = require('../models/userModel');
+const { uploadFile } = require('../utils/googleUploadFile');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
@@ -29,11 +30,15 @@ exports.resizeUserAvatar = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
   const ext = req.file.mimetype.split('/')[1];
   req.file.filename = `user-${req.user.id}-${Date.now()}.${ext}`;
-
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFile(`public/img/users/${req.file.filename}`);
-
+  const buffer = await sharp(req.file.buffer)
+    .resize({ width: 100, height: 100 })
+    .toBuffer();
+  const avatar = await uploadFile(
+    buffer,
+    req.file.filename,
+    req.file.mimetype,
+    process.env.GOOGLE_DRIVE_USERS_FOLDER_ID
+  );
   next();
 });
 exports.getAllUsers = factory.getAll(User);
