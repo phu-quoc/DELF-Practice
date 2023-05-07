@@ -15,7 +15,6 @@ exports.postAnswers = catchAsync(async (req, res, next) => {
         answers = new Map(JSON.parse(answers))
         const result_id = req.body.result_id;
         let total_mark = 0;
-
         for (const [question_id, option_id] of answers.entries()) {
             const question = await Question.findById(question_id)
             let mark = 0;
