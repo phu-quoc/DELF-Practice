@@ -53,12 +53,10 @@ answerSchema.pre('save', async function (next) {
 });
 answerSchema.post('save', function () {
   this.constructor.calcTotalScore(this.result);
-  console.log(`1 ${this.constructor}`);
 });
 
 answerSchema.pre(/^findOneAnd/, async function (next) {
   this.a = await this.findOne().clone();
-  console.log(`3 ${this.a}`);
   next();
 });
 
