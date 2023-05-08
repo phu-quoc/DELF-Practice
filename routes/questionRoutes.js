@@ -2,7 +2,7 @@ const express = require('express');
 
 const questionController = require('../controllers/questionController');
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
@@ -10,6 +10,7 @@ router
   .post(
     questionController.uploadQuestionImage,
     questionController.resizeQuestionImage,
+    questionController.setExaminationId,
     questionController.createQuestion
   );
 

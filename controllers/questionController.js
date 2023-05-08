@@ -26,7 +26,6 @@ exports.resizeQuestionImage = catchAsync(async (req, res, next) => {
     .toFormat('jpeg')
     .toBuffer();
   console.log(buffer);
-  // req.file.filename = req.body.image;
   const image = await uploadFile(
     buffer,
     req.body.image,
@@ -35,6 +34,11 @@ exports.resizeQuestionImage = catchAsync(async (req, res, next) => {
   );
   next();
 });
+
+exports.setExaminationId = (req, res, next) => {
+  if (!req.body.examination) req.body.examination = req.params.examinationId;
+  next();
+};
 exports.getAllQuestions = factory.getAll(Question);
 exports.getQuestion = factory.getOne(Question);
 exports.createQuestion = factory.createOne(Question);

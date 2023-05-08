@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Result = require('./resultModel');
+const Question = require('./questionModel');
 
 const answerSchema = new mongoose.Schema({
   result: {
@@ -13,6 +15,56 @@ const answerSchema = new mongoose.Schema({
   },
   answer: String,
   mark: Number,
+});
+
+answerSchema.statics.calcTotalScore = async function (resultId) {
+  const stats = await this.aggregate([
+    {
+      $match: {
+        result: resultId,
+      },
+    },
+    {
+      $group: {
+        _id: '$result',
+        score: { $sum: '$mark' },
+      },
+    },
+  ]);
+
+  if (stats.length > 0)
+    await Result.findByIdAndUpdate(resultId, { score: stats[0].score });
+  else await Result.findByIdAndUpdate(resultId, { score: 0 });
+};
+
+answerSchema.pre('save', async function (next) {
+  const question = await Question.findById(this.question);
+  const correctAnswer = question.options.filter(
+    option => option.content === this.answer && option.isCorrect === true
+  );
+  if (
+    correctAnswer.length > 0 ||
+    question.category === 'Speaking' ||
+    question.category === 'Writing'
+  )
+    this.mark = question.point;
+  else this.mark = 0;
+  next();
+});
+answerSchema.post('save', function () {
+  this.constructor.calcTotalScore(this.result);
+  console.log(`1 ${this.constructor}`);
+});
+
+answerSchema.pre(/^findOneAnd/, async function (next) {
+  this.a = await this.findOne().clone();
+  console.log(`3 ${this.a}`);
+  next();
+});
+
+answerSchema.post(/^findOneAnd/, async function () {
+  console.log(`2 ${this.a}`);
+  await this.a.constructor.calcTotalScore(this.a.result);
 });
 
 const Answer = mongoose.model('Answer', answerSchema);

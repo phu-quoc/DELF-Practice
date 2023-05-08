@@ -9,7 +9,7 @@ const resultSchema = new mongoose.Schema({
     ref: 'Examination',
     required: true,
   },
-  score: Number,
+  score: { type: Number, default: 0 },
 });
 
 resultSchema.index({ score: 1 });

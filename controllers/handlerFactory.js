@@ -50,9 +50,7 @@ exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
-    console.log(`Before: ${query}`);
     const doc = await query;
-    console.log(`After: ${doc}`);
     if (!doc) {
       return next(new AppError('No document found with that Id', 404));
     }
