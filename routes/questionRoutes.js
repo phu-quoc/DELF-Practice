@@ -10,7 +10,6 @@ router
   .post(
     questionController.uploadQuestionImage,
     questionController.resizeQuestionImage,
-    questionController.setExaminationId,
     questionController.createQuestion
   );
 

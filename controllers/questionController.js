@@ -35,10 +35,6 @@ exports.resizeQuestionImage = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.setExaminationId = (req, res, next) => {
-  if (!req.body.examination) req.body.examination = req.params.examinationId;
-  next();
-};
 exports.getAllQuestions = factory.getAll(Question);
 exports.getQuestion = factory.getOne(Question);
 exports.createQuestion = factory.createOne(Question);
