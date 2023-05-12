@@ -1,11 +1,11 @@
 const express = require('express');
 
 const examinationController = require('../controllers/examinationController');
-const questionRouter = require('./questionRoutes');
+const exerciseRouter = require('./exerciseRoutes');
 
 const router = express.Router();
 
-router.use('/:examinationId/questions', questionRouter);
+router.use('/:examinationId/exercises', exerciseRouter);
 router
   .route('/')
   .get(examinationController.getAllExaminations)

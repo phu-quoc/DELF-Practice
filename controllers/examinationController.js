@@ -12,6 +12,6 @@ exports.setUserId = (req, res, next) => {
 
 exports.createExamination = factory.createOne(Examination);
 exports.getExamination = factory.getOne(Examination, {
-  path: 'questions',
+  path: 'exercises',
 });
 exports.deleteExamination = factory.deleteOne(Examination);

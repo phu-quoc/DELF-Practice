@@ -25,8 +25,8 @@ const examinationSchema = new mongoose.Schema(
   }
 );
 
-examinationSchema.virtual('questions', {
-  ref: 'Question',
+examinationSchema.virtual('exercises', {
+  ref: 'Exercise',
   foreignField: 'examination',
   localField: '_id',
 });
