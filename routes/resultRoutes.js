@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 const resultController = require('../controllers/resultController');
+const answerRouter = require('./answerRoutes');
 
+router.use('/:resultId/answers', answerRouter);
 router
   .route('/')
   .get(resultController.getAllResults)
