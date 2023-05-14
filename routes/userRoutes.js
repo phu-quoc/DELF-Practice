@@ -13,6 +13,7 @@ router.get(
   authController.googleCallback,
   authController.googleSuccess
 );
+router.post('/login-google', authController.ggLogin);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 

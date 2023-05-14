@@ -3,6 +3,7 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+const axios = require('axios');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -82,6 +83,34 @@ exports.googleSuccess = catchAsync(async (req, res, next) => {
       name: req.user.displayName,
       googleId: req.user.id,
       avatar: req.user.photos[0].value,
+    },
+    { upsert: true, new: true }
+  );
+  console.log(user);
+  createSendToken(user, 201, res);
+});
+
+exports.ggLogin = catchAsync(async (req, res, next) => {
+  const { idToken } = req.body;
+
+  const response = await axios.post(
+    `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  const { data } = response;
+  const user = await User.findOneAndUpdate(
+    { email: data.email },
+    {
+      email: data.email,
+      name: data.name,
+      googleId: data.sub,
+      avatar: data.picture,
     },
     { upsert: true, new: true }
   );
