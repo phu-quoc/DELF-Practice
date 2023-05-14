@@ -13,6 +13,7 @@ exports.deleteFavorite = factory.deleteOne(Favorite);
 const shuffleArray = arr => {
   const n = arr.length;
   const derangement = arr.slice();
+  // eslint-disable-next-line no-plusplus
   for (let i = n - 1; i > 0; i--) {
     // shuffles the array using the Fisher-Yates algorithm
     const j = Math.floor(Math.random() * (i + 1));
@@ -33,22 +34,18 @@ const shuffleArray = arr => {
 };
 
 exports.getRandom = catchAsync(async (req, res) => {
-  try {
-    const rdFarvorites = await Favorite.aggregate([
-      {
-        $sample: { size: 5 },
-      },
-    ]);
-    let words = rdFarvorites.map(item => item.word);
-    words = shuffleArray(words);
-    res.status(200).json({
-      status: 'success',
-      data: {
-        words: words,
-        meanings: rdFarvorites,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const rdFarvorites = await Favorite.aggregate([
+    {
+      $sample: { size: 5 },
+    },
+  ]);
+  let words = rdFarvorites.map(item => item.word);
+  words = shuffleArray(words);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      words: words,
+      meanings: rdFarvorites,
+    },
+  });
 });

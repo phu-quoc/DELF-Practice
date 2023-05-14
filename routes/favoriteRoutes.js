@@ -4,6 +4,7 @@ const favoriteController = require('../controllers/favoriteController');
 
 const router = express.Router();
 
+router.get('/random', favoriteController.getRandom);
 router
   .route('/')
   .get(favoriteController.getAllFavorites)
@@ -12,5 +13,4 @@ router
   .route('/:id')
   .get(favoriteController.getFavorite)
   .delete(favoriteController.deleteFavorite);
-router.route('/random').get(favoriteController.getRandom);
 module.exports = router;
