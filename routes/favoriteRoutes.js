@@ -8,7 +8,7 @@ router.get('/random', favoriteController.getRandom);
 router
   .route('/')
   .get(favoriteController.getAllFavorites)
-  .post(favoriteController.createFavorite);
+  .post(favoriteController.setUserId, favoriteController.createFavorite);
 router
   .route('/:id')
   .get(favoriteController.getFavorite)

@@ -4,6 +4,11 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
+exports.setUserId = (req, res, next) => {
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
+};
+
 exports.getAllFavorites = factory.getAll(Favorite);
 exports.getFavorite = factory.getOne(Favorite);
 exports.createFavorite = factory.createOne(Favorite);
