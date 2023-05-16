@@ -2,13 +2,18 @@ const express = require('express');
 
 const router = express.Router();
 const resultController = require('../controllers/resultController');
+const authController = require('../controllers/authController');
 const answerRouter = require('./answerRoutes');
 
 router.use('/:resultId/answers', answerRouter);
 router
   .route('/')
   .get(resultController.getAllResults)
-  .post(resultController.createResult);
+  .post(
+    authController.protect,
+    resultController.setUserId,
+    resultController.createResult
+  );
 
 router
   .route('/:id')
