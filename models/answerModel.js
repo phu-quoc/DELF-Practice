@@ -42,6 +42,7 @@ answerSchema.pre('save', async function (next) {
   const correctAnswer = question.options.filter(
     option => option._id === this.answer && option.isCorrect === true
   );
+  console.log('correctAnswer', correctAnswer.length);
   if (
     correctAnswer.length > 0 ||
     question.category === 'Speaking' ||
@@ -51,8 +52,8 @@ answerSchema.pre('save', async function (next) {
   else this.mark = 0;
   next();
 });
-answerSchema.post('save', function () {
-  this.constructor.calcTotalScore(this.result);
+answerSchema.post('save', async function () {
+  await this.constructor.calcTotalScore(this.result);
 });
 
 answerSchema.pre(/^findOneAnd/, async function (next) {
