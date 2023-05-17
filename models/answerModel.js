@@ -40,7 +40,7 @@ answerSchema.statics.calcTotalScore = async function (resultId) {
 answerSchema.pre('save', async function (next) {
   const question = await Question.findById(this.question);
   const correctAnswer = question.options.filter(
-    option => option._id === this.answer && option.isCorrect === true
+    option => option._id == this.answer && option.isCorrect === true
   );
   console.log('correctAnswer', correctAnswer.length);
   console.log('question', question.options);
