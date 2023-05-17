@@ -14,6 +14,13 @@ exports.getFavorite = factory.getOne(Favorite);
 exports.createFavorite = factory.createOne(Favorite);
 exports.updateFavorite = factory.updateOne(Favorite);
 exports.deleteFavorite = factory.deleteOne(Favorite);
+exports.getMyFavorites = catchAsync(async (req, res, next) => {
+  const favorites = await Favorite.findOne({ user: req.body.id });
+  res.status(200).json({
+    status: 'success',
+    data: favorites,
+  });
+});
 
 const shuffleArray = arr => {
   const n = arr.length;

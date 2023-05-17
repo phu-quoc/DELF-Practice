@@ -6,6 +6,11 @@ const favoriteController = require('../controllers/favoriteController');
 const router = express.Router();
 
 router.get('/random', favoriteController.getRandom);
+router.get(
+  '/my-favorites',
+  authController.protect,
+  favoriteController.getMyFavorites
+);
 router
   .route('/')
   .get(favoriteController.getAllFavorites)
