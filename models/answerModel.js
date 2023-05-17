@@ -43,6 +43,9 @@ answerSchema.pre('save', async function (next) {
     option => option._id === this.answer && option.isCorrect === true
   );
   console.log('correctAnswer', correctAnswer.length);
+  console.log('question', question.options);
+  console.log('answer', this.answer);
+  console.log('this', this);
   if (
     correctAnswer.length > 0 ||
     question.category === 'Speaking' ||
