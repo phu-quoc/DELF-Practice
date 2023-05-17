@@ -15,7 +15,7 @@ exports.createFavorite = factory.createOne(Favorite);
 exports.updateFavorite = factory.updateOne(Favorite);
 exports.deleteFavorite = factory.deleteOne(Favorite);
 exports.getMyFavorites = catchAsync(async (req, res, next) => {
-  console.log(req.body.id);
+  console.log(req.user.id);
   const favorites = await Favorite.find({ user: req.body.id });
   res.status(200).json({
     status: 'success',
