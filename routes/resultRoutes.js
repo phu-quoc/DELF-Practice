@@ -6,6 +6,11 @@ const authController = require('../controllers/authController');
 const answerRouter = require('./answerRoutes');
 
 router.use('/:resultId/answers', answerRouter);
+router.get(
+  '/my-results',
+  authController.protect,
+  resultController.getMyResults
+);
 router
   .route('/')
   .get(resultController.getAllResults)

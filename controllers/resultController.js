@@ -7,6 +7,14 @@ exports.setUserId = (req, res, next) => {
   next();
 };
 
+exports.getMyResults = catchAsync(async (req, res, next) => {
+  const results = await Result.find({ user: req.user.id });
+  res.status(200).json({
+    status: 'success',
+    data: results,
+  });
+});
+
 exports.getAllResults = factory.getAll(Result);
 exports.getResult = factory.getOne(Result, {
   path: 'answers',
