@@ -30,7 +30,7 @@ resultSchema.pre(/^find/, async function (next) {
     select: 'name',
   }).populate({
     path: 'examination',
-    select: 'name timeLimit',
+    select: 'name timeLimit type',
   });
   next();
 });
