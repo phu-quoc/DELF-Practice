@@ -9,7 +9,7 @@ const router = express.Router({ mergeParams: true });
 router.use('/:exerciseId/questions', questionRouter);
 router
   .route('/')
-  .get(exerciseController.getAllExercises)
+  .get(exerciseController.setExaminationId, exerciseController.getAllExercises)
   .post(
     exerciseController.uploadExerciseImage,
     exerciseController.resizeExerciseImage,

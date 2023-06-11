@@ -7,7 +7,14 @@ const examinationSchema = new mongoose.Schema(
     description: String,
     type: {
       type: String,
-      enum: ['Listening, Speaking, Reading, Writing, Mini Test, Full Test'],
+      enum: [
+        'Listening',
+        'Speaking',
+        'Reading',
+        'Writing',
+        'Mini Test',
+        'Full Test',
+      ],
       required: true,
     },
     author: {
