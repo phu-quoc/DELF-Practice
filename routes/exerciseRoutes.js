@@ -19,5 +19,6 @@ router
 router
   .route('/:id')
   .get(exerciseController.getExercise)
+  .put(exerciseController.updateExercise)
   .delete(exerciseController.deleteExercise);
 module.exports = router;

@@ -46,3 +46,4 @@ exports.getExercise = factory.getOne(Exercise, {
   path: 'questions',
 });
 exports.deleteExercise = factory.deleteOne(Exercise);
+exports.updateExercise = factory.updateOne(Exercise);
