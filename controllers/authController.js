@@ -10,33 +10,57 @@ const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 const googleAuthenticate = require('../utils/googleAuthenticate');
 
-const signToken = id =>
+const signToken = (id, secret, expiresIn) =>
   jwt.sign(
     {
       id,
     },
-    process.env.JWT_SECRET,
+    secret,
     {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: expiresIn,
     }
   );
 
 const createSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id);
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-  res.cookie('jwt', token, cookieOptions);
+  const token = signToken(
+    user._id,
+    process.env.JWT_SECRET,
+    process.env.JWT_EXPIRES_IN
+  );
+  const refreshToken = signToken(
+    user._id,
+    process.env.JWT_REFRESH_SECRET,
+    process.env.JWT_REFRESH_EXPIRES_IN
+  );
+  const cookieOptions = [
+    {
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+    },
+    {
+      expires: new Date(
+        Date.now() +
+          process.env.JWT_REFRESH_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+    },
+  ];
+  if (process.env.NODE_ENV === 'production') {
+    cookieOptions[0].secure = true;
+    cookieOptions[1].secure = true;
+  }
+  console.log(cookieOptions[0]);
+  res.cookie('jwt', token, cookieOptions[0]);
+  res.cookie('jwt_refresh', refreshToken, cookieOptions[1]);
 
   user.password = undefined;
 
   res.status(statusCode).json({
     status: 'success',
     token,
+    refreshToken,
     data: {
       user,
     },
@@ -115,6 +139,29 @@ exports.ggLogin = catchAsync(async (req, res, next) => {
     { upsert: true, new: true }
   );
   console.log(user);
+  createSendToken(user, 201, res);
+});
+
+exports.refreshToken = catchAsync(async (req, res, next) => {
+  let refreshToken;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    refreshToken = req.headers.authorization.split(' ')[1];
+  }
+  if (!refreshToken) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
+  const userId = await new Promise((resolve, reject) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, payload) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(payload.id);
+    });
+  });
+  const user = await User.findById(userId);
   createSendToken(user, 201, res);
 });
 

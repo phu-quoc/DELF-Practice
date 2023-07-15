@@ -2,7 +2,6 @@ const express = require('express');
 
 const exerciseController = require('../controllers/exerciseController');
 const questionRouter = require('./questionRoutes');
-const questionController = require('../controllers/questionController');
 
 const router = express.Router({ mergeParams: true });
 

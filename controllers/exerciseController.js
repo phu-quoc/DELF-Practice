@@ -37,6 +37,7 @@ exports.resizeExerciseImage = catchAsync(async (req, res, next) => {
 
 exports.setExaminationId = (req, res, next) => {
   if (!req.body.examination) req.body.examination = req.params.examinationId;
+  console.log(req.body.examination);
   next();
 };
 
