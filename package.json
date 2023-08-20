@@ -38,7 +38,8 @@
     "qs": "^6.11.2",
     "sharp": "^0.32.1",
     "slugify": "^1.6.5",
-    "validator": "^13.9.0"
+    "validator": "^13.9.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "eslint": "^8.34.0",

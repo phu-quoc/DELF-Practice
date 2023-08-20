@@ -8,7 +8,6 @@ const questionSchema = new mongoose.Schema({
   category: {
     type: String,
     enum: ['Listening', 'Speaking', 'Reading', 'Writing'],
-    required: true,
   },
   question: String,
   image: String,
