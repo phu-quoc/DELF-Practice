@@ -1,5 +1,5 @@
-const xlsx = require('xlsx');
 const multer = require('multer');
+const xlsx = require('xlsx');
 const Examination = require('../models/examinationModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
