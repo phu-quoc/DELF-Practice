@@ -68,7 +68,7 @@ router.post(
     const tmnCode = 'Q3OF5JFS';
     const secretKey = 'FKGMAVRWCHRERUOEYLQOXKVSMNCQYLZA';
     let vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-    const returnUrl = 'http://localhost:3000/api/v1/payment/vnpay_return';
+    const returnUrl = `${process.env.URL_REACT}/api/v1/payment/vnpay_return`;
     const orderId = transaction.id;
     // const orderId = moment(date).format('DDHHmmss');
     const amount = 10000;
