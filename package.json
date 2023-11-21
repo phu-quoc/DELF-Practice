@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "set NODE_ENV=production && node server",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "lint": "eslint --fix --ext .js,.jsx ."
   },
   "repository": {
     "type": "git",
