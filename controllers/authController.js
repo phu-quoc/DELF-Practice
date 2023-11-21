@@ -29,8 +29,8 @@ const createSendToken = (user, statusCode, res) => {
   );
   const refreshToken = signToken(
     user._id,
-    process.env.JWT_REFRESH_SECRET,
-    process.env.JWT_REFRESH_EXPIRES_IN
+    process.env.JWT_SECRET,
+    process.env.JWT_EXPIRES_IN
   );
   const cookieOptions = [
     {
@@ -41,8 +41,7 @@ const createSendToken = (user, statusCode, res) => {
     },
     {
       expires: new Date(
-        Date.now() +
-          process.env.JWT_REFRESH_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
       ),
       httpOnly: true,
     },
@@ -154,7 +153,7 @@ exports.refreshToken = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or has expired', 400));
   }
   const userId = await new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, payload) => {
+    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
         reject(err);
       }
